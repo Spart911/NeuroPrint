@@ -1,0 +1,8 @@
+{
+    "name": "OctoPrint connection",
+    "author": "fieldOfView",
+    "version": "2.7",
+    "description": "Enables sending prints to OctoPrint and monitoring the progress",
+    "api": 4,
+    "i18n-catalog": "cura"
+}
