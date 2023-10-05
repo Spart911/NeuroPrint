@@ -263,23 +263,23 @@ class MyFrame(wx.Frame):
             Dphoto(camera_index=0)
             Dphoto(camera_index=1)
             # Отображаем окно с фото после вызова Dphoto
-            img_path = os.path.join('img_test', 'photo.png')
+            img_path = os.path.join('img_test', 'photo1.png')
             photo_frame = PhotoFrame(self, img_path)
 
 
         if label == "Удалить фон":
-            from remove_bg import Dremove_bg  # Подставьте правильный импорт для функции Dphoto
+            #from remove_bg import Dremove_bg  # Подставьте правильный импорт для функции Dphoto
             # Вызываем Dphoto только при нажатии кнопки "Сделать фото"
-            Dremove_bg()
+            #Dremove_bg()
             # Отображаем окно с фото после вызова Dphoto
-            img_path = os.path.join('CHB', 'photo.png.png')
+            img_path = os.path.join('CHB', 'photo1.png.png')
             photo_frame = PhotoFrame(self, img_path)
 
 
         if label == "Обработать фото":
             from image_editor import Dimage_editor  # Подставьте правильный импорт для функции Dphoto
             Dimage_editor()
-            img_path = os.path.join('res', 'photo.png.png')
+            img_path = os.path.join('res', 'photo1.png.png')
             photo_frame = PhotoFrame(self, img_path)
 
 
