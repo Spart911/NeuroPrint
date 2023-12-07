@@ -1,7 +1,7 @@
 import wx
 import os
 import wx.lib.scrolledpanel as scrolled
-# from elevate import elevate
+from elevate import elevate
 
 
 
@@ -258,28 +258,28 @@ class MyFrame(wx.Frame):
     def OnButtonClick(self, event):
         label = event.GetEventObject().GetLabel()
         if label == "Сделать фото":
-            from photo import Dphoto  # Подставьте правильный импорт для функции Dphoto
-            # Вызываем Dphoto только при нажатии кнопки "Сделать фото"
-            Dphoto(camera_index=0)
-            Dphoto(camera_index=1)
+            # from photo import Dphoto  # Подставьте правильный импорт для функции Dphoto
+            # # Вызываем Dphoto только при нажатии кнопки "Сделать фото"
+            # Dphoto(camera_index=0)
+            # Dphoto(camera_index=1)
             # Отображаем окно с фото после вызова Dphoto
-            img_path = os.path.join('img_test', 'photo1.png')
+            img_path = os.path.join('img_test', 'photo.png')
             photo_frame = PhotoFrame(self, img_path)
 
 
         if label == "Удалить фон":
-            #from remove_bg import Dremove_bg  # Подставьте правильный импорт для функции Dphoto
+            from remove_bg import Dremove_bg  # Подставьте правильный импорт для функции Dphoto
             # Вызываем Dphoto только при нажатии кнопки "Сделать фото"
-            #Dremove_bg()
+            Dremove_bg()
             # Отображаем окно с фото после вызова Dphoto
-            img_path = os.path.join('CHB', 'photo1.png.png')
+            img_path = os.path.join('CHB', 'photo.png.png')
             photo_frame = PhotoFrame(self, img_path)
 
 
         if label == "Обработать фото":
             from image_editor import Dimage_editor  # Подставьте правильный импорт для функции Dphoto
             Dimage_editor()
-            img_path = os.path.join('res', 'photo1.png.png')
+            img_path = os.path.join('res', 'photo.png.png')
             photo_frame = PhotoFrame(self, img_path)
 
 
@@ -338,7 +338,7 @@ class MyFrame(wx.Frame):
         
 
 if __name__ == '__main__':
-    # elevate()
+    elevate()
     app = wx.App()
     frame = MyFrame(None)
     frame.Show()

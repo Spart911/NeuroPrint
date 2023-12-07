@@ -1,24 +1,32 @@
 import numpy as np
 from PIL import Image, ImageFilter, ImageEnhance  # Добавлен импорт для ImageEnhance
 import os
-import cv2
-
+from ISR.models import RDN
+import tensorflow as tf
+print("Num GPUs Available:", len(tf.config.list_physical_devices('GPU')))
 
 def enhance_image(image):
-    enhanced_image = ImageEnhance.Sharpness(image).enhance(5.0)
-    # Увеличение разрешения с помощью библиотеки Pillow
-    super_res_image = enhanced_image.resize((enhanced_image.width * 5, enhanced_image.height * 5), Image.BILINEAR)
-    # Преобразование изображения в черно-белый формат
-    bw_image = image.convert("L")
-    edges = bw_image.filter(ImageFilter.FIND_EDGES)
-    emboss = edges.filter(ImageFilter.EMBOSS)
-    emboss.show()
+    lr_img = np.array(image)
+    rdn = RDN(weights='psnr-small')
+    sr_img = rdn.predict(lr_img)
+    image_object = Image.fromarray(sr_img)
+
+    lr1_img = np.array(image_object)
+    rdn = RDN(weights='psnr-small')
+    sr1_img = rdn.predict(lr1_img)
+    image1_object = Image.fromarray(sr1_img)
 
 
-    # Улучшение качества изображения с помощью библиотеки Pillow
 
 
-    return super_res_image
+
+    bw_image = image1_object.convert("L")
+    emboss = bw_image.filter(ImageFilter.EMBOSS)
+
+
+
+
+    return bw_image
 
 def process_images(input_folder, output_folder):
     # Проверка наличия выходной папки и создание ее, если она не существует
@@ -56,4 +64,3 @@ def Dimage_editor():
 
     # Вызов функции для обработки изображений
     process_images(input_folder, output_folder)
-Dimage_editor()
