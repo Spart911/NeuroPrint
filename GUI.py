@@ -258,9 +258,8 @@ class MyFrame(wx.Frame):
     def OnButtonClick(self, event):
         label = event.GetEventObject().GetLabel()
         if label == "Сделать фото":
-            # from photo import Dphoto  # Подставьте правильный импорт для функции Dphoto
-            # # Вызываем Dphoto только при нажатии кнопки "Сделать фото"
-            # Dphoto(camera_index=0)
+            from photo import Dphoto  # Подставьте правильный импорт для функции Dphoto
+            Dphoto(0)
             # Dphoto(camera_index=1)
             # Отображаем окно с фото после вызова Dphoto
             img_path = os.path.join('img_test', 'photo.png')
