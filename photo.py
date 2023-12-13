@@ -8,8 +8,8 @@ def Dphoto(camera_index=0):
         print(f"Unable to open camera {camera_index}.")
         return
     
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1080)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 500)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 500)
     
     # Adjust the focus
     focus = 120  # min: 0, max: 255, increment: 5

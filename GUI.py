@@ -2,11 +2,31 @@ import wx
 import os
 import wx.lib.scrolledpanel as scrolled
 from elevate import elevate
-
-
+#
+# # Класс ведения журнала
+# import sys
+#
+#
+# class Logger:
+#
+#     def __init__(self, filename):
+#         self.console = sys.stdout
+#         self.file = open(filename, 'w')
+#
+#     def write(self, message):
+#         self.console.write(message)
+#         self.file.write(message)
+#
+#     def flush(self):
+#         self.console.flush()
+#         self.file.flush()
+#
+#
+# path = 'path/to/some/dir/file.txt'
+# sys.stdout = Logger("Log_GUI.txt")
 
 class PhotoFrame(wx.Frame):
-    def __init__(self, parent, img_path):
+    ef __init__(self, parent, img_path):
         super(PhotoFrame, self).__init__(parent, title='Photo', size=(800, 600))
 
         icon = wx.Icon()
@@ -234,7 +254,8 @@ class MyFrame(wx.Frame):
             "Нарезать модель",
             "Провести анализ фото на наличие дефекта",
             "Изменить параметр",
-            "Запустить печать"
+            "Запустить печать",
+            "Запустить полную настройку"
         ]
 
         vbox = wx.BoxSizer(wx.VERTICAL)
@@ -251,12 +272,76 @@ class MyFrame(wx.Frame):
 
         pnl.SetSizer(vbox)
 
-        self.SetMinSize((450, 420))  # Adjusted minimum size for the window
+        self.SetMinSize((450, 470))  # Adjusted minimum size for the window
         self.SetTitle('NeuroPrint')
         self.Centre()
 
     def OnButtonClick(self, event):
         label = event.GetEventObject().GetLabel()
+        if label == "Запустить полную настройку":
+            import json
+            from photo import Dphoto
+            from remove_bg import Dremove_bg
+            from image_editor import Dimage_editor
+            from slice import Dslice
+            from Underextrusion import DEF_Underextrusion
+            from JSON import change_parametr
+            from Gcode_send import Dgcode_send
+            def read(filename):
+                with open(filename, 'r') as openfile:
+                    data = json.load(openfile)
+                return data
+            filepath = r"Cura 2.7\\resources\\definitions\\fdmprinter.def.json"
+            json_object = read(filepath)
+            flow = json_object['settings']['material']['children']['material_flow']['default_value']
+            inital_interval=80 # Начальное значение интервала
+            end_interval=120# Конечное значение интервала
+
+            # Нарезаем модель
+            Dslice()
+
+            # Запускаем печать
+            Dgcode_send()
+
+            # Делаем фото
+            Dphoto(0)
+
+            # Удаляем фон
+            Dremove_bg()
+
+            # Увеличиваем качество в 4 раза и переводим в ЧБ спектр
+            Dimage_editor()
+
+            # Проводим анализ на наличие дефекта
+
+            defect = (DEF_Underextrusion())[0]
+            confidence_score = (DEF_Underextrusion())[1]
+            while defect == 1:
+                if flow < inital_interval:
+                    flow = inital_interval
+                difference = end_interval - flow
+                third_difference = difference//3
+                if confidence_score>0.95:
+                    flow += 2*third_difference
+                else:
+                    flow += third_difference
+                change_parametr(filepath, "material_flow", flow)
+                Dslice()
+                Dgcode_send()
+                Dphoto(0)
+                Dremove_bg()
+                Dimage_editor()
+                defect = (DEF_Underextrusion())[0]
+                confidence_score = (DEF_Underextrusion())[1]
+
+
+
+
+
+
+
+
+
         if label == "Сделать фото":
             from photo import Dphoto  # Подставьте правильный импорт для функции Dphoto
             Dphoto(0)
@@ -297,6 +382,9 @@ class MyFrame(wx.Frame):
                 wx.MessageBox('Не удалось прочитать файл G-code.', 'Ошибка', wx.OK | wx.ICON_ERROR)
 
         if label == "Провести анализ фото на наличие дефекта":
+            # import tensorflow as tf
+            # print("Num of GPUs available: ", len(tf.test.gpu_device_name()))
+
             from Underextrusion import DEF_Underextrusion
             class_name = (DEF_Underextrusion())[0]
             confidence_score = (DEF_Underextrusion())[1]

@@ -2,6 +2,8 @@ from keras.models import load_model  # TensorFlow is required for Keras to work
 from PIL import Image, ImageOps  # Install pillow instead of PIL
 import numpy as np
 
+
+
 def DEF_Underextrusion():
     # Disable scientific notation for clarity
     np.set_printoptions(suppress=True)
@@ -44,7 +46,7 @@ def DEF_Underextrusion():
             defect=1
     # Print prediction and confidence score
     print("Class:", class_name[2:], end="")
+    print("defect =", defect)
     print("Confidence Score:", confidence_score)
-    return class_name[2:],confidence_score
-
+    return defect,confidence_score
 

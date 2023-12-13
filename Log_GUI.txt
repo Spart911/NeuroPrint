@@ -1,0 +1,12 @@
+
+1/1 [==============================] - ETA: 0s
+1/1 [==============================] - 13s 13s/step
+Class: NOT UNDEREXTUSION
+defect = 0
+Confidence Score: 0.9993297
+
+1/1 [==============================] - ETA: 0s
+1/1 [==============================] - 1s 886ms/step
+Class: NOT UNDEREXTUSION
+defect = 0
+Confidence Score: 0.9993297
